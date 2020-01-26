@@ -1,0 +1,179 @@
+/*Linked list
+    lookup o(n)
+    Insert & Delete O(1) - beginning
+                    O(n) - last
+                    O(n) - i poistion*/
+#include <stdio.h>
+#include <stdlib.h>
+void main()
+{
+    struct node
+    {
+        int data;
+        struct node *next; //struct is used becoz the second datatype should point towards a node which is of struct type
+    };
+    struct node *head, *newnode, *temp, *prenode; //pointer always stores with the same data type as the value
+    int choice, pos, count = 1, option;
+    head = 0; //initially value of head is zero
+    while (choice)
+    {
+        //malloc syntax - malloc(how much size you want),it returns a void pointer
+        // Since it retruns a void pointer typecasting is required
+        newnode = (struct node *)malloc(sizeof(struct node)); //newnode will store the address of the allocated space for the node
+        printf("Enter data: ");
+        scanf("%d", &newnode->data);
+        newnode->next = 0;
+        if (head == 0)
+            head = temp = newnode;
+        else
+        {
+            temp->next = newnode;
+            temp = newnode;
+        }
+        printf("Do you want to continue(0,1)?");
+        scanf("%d", &choice);
+    }
+    //print
+    temp = head;
+    while (temp != 0)
+    {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    //
+    printf("\n1)INSERT\n2)DELETE\n3)EXIT");
+    scanf("\n%d", &choice);
+    if (choice == 1)
+    {
+        printf("1)Insert at the Beginning\n2)Insert at a position\n3)Insert at End\n");
+        scanf("%d", &option);
+        if (option == 1)
+        {
+            //insert at beginning
+            newnode = (struct node *)malloc(sizeof(struct node));
+            printf("Enter data insert: ");
+            scanf("%d", &newnode->data);
+            newnode->next = head;
+            head = newnode;
+            temp = head;
+            while (temp != 0)
+            {
+                printf("%d ", temp->data);
+                temp = temp->next;
+            }
+        }
+        //insert at middle
+        else if (option == 2)
+        {
+            printf("Enter position: ");
+            scanf("%d", &pos);
+            pos = pos - 1;
+            newnode = (struct node *)malloc(sizeof(struct node));
+            printf("Enter data insert at pos: ");
+            scanf("%d", &newnode->data);
+            temp = head;
+            while (count <= pos)
+            {
+                temp = temp->next;
+                count++;
+            }
+            newnode->next = temp;
+            count = 1;
+            temp = head;
+            while (count < pos)
+            {
+                temp = temp->next;
+                count++;
+            }
+            temp->next = newnode;
+            temp = head;
+            while (temp != 0)
+            {
+                printf("%d ", temp->data);
+                temp = temp->next;
+            }
+        }
+        else if (option == 3)
+        //insert at end
+        {
+            newnode = (struct node *)malloc(sizeof(struct node));
+            printf("Enter data insert at end: ");
+            scanf("%d", &newnode->data);
+            newnode->next = 0;
+            temp = head;
+            while (temp->next != 0) //if temp!=0 is given temp becomes zero
+                temp = temp->next;
+            temp->next = newnode;
+            temp = head;
+            while (temp != 0)
+            {
+                printf("%d ", temp->data);
+                temp = temp->next;
+            }
+        }
+    }
+    //Delete
+    else if (choice == 2)
+    {
+        printf("1)Delete at the Beginning\n2)Delete at a position\n3)Delete at End\n");
+        scanf("%d", &option);
+        if (option == 1)
+        {
+            //delete at begining
+            if (head == 0)
+                printf("List is empty");
+            else
+            {
+                temp = head;
+                head = head->next;
+                free(temp); //deallocate the space
+                temp = head;
+            }
+            while (temp != 0)
+            {
+                printf("%d ", temp->data);
+                temp = temp->next;
+            }
+        }
+        else if (option == 2)
+        {
+            //delete at position
+            count = 1;
+            printf("Enter the position: ");
+            scanf("%d", &pos);
+            temp = head;
+            while (count != pos)
+            {
+                prenode = temp;
+                temp = temp->next;
+                count++;
+            }
+            prenode->next = temp->next;
+            free(temp);
+            temp = head;
+            while (temp != 0)
+            {
+                printf("%d ", temp->data);
+                temp = temp->next;
+            }
+        }
+        else if (option == 3)
+        {
+            //Delete at end
+            temp = head;
+            while (temp->next != 0)
+            {
+                prenode = temp;
+                temp = temp->next;
+            }
+            prenode->next = 0;
+            free(temp);
+            temp = head;
+            while (temp != 0)
+            {
+                printf("%d ", temp->data);
+                temp = temp->next;
+            }
+        }
+    }
+}
